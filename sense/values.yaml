@@ -322,7 +322,7 @@ catalog:
     name: catalog
     # GM Catalog version
     version: 1.2.0
-    image: docker.greymatter.io/development/gm-catalog:{{ $.Values.catalog.version }}
+    image: docker.greymatter.io/internal/gm-catalog:xdshub-fix
     # When to pull container images, used in the deployment
     image_pull_policy: IfNotPresent
     # CPU and memory limits for the catalog service
@@ -383,15 +383,6 @@ catalog:
       port:
         type: value
         value: '{{ $.Values.catalog.port }}'
-      control_server_0_address:
-        type: value
-        value: 'control.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.global.control.port }}'
-      control_server_0_zone_name:
-        type: value
-        value: '{{ .Values.global.zone }}'
-      control_server_0_request_cluster_name:
-        type: value
-        value: 'edge'
       use_tls:
         type: value
         value: '{{ not .Values.global.spire.enabled }}'
