@@ -20,6 +20,8 @@ global:
     port: 50000
     # The label Control uses to find pods to include in the mesh
     cluster_label: greymatter.io/control
+    # port for prometheus to listen on
+    prometheus_port: 9102
     # Comma delimited string of namespaces for control to monitor. Also used by prometheus.
     additional_namespaces:
   data:
@@ -134,6 +136,12 @@ control:
         type: 'value'
         value: '{{ include "control.namespaces" . }}'
       # The following values are not applied. Change the type to 'value' to use these variables.
+      gm_control_stats_backends:
+        type: 'value'
+        value: 'prometheus'
+      gm_control_stats_addr:
+        type: 'value'
+        value: '0.0.0.0:{{ .Values.global.control.prometheus_port }}/prometheus'
       gm_control_diff_dry_run:
         type: 'null'
         value: 'true'

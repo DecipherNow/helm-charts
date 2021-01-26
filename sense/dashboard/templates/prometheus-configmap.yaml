@@ -43,6 +43,7 @@ data:
           - source_labels: ['__meta_consul_service_address', '__meta_consul_service_metadata_metrics']
             regex: '(.*);(\d+)'
             replacement: '${1}:8001'
+      
             target_label: __address__
           - source_labels: ['__meta_consul_service']
             target_label: job
@@ -87,6 +88,21 @@ data:
           regex: '(.*):(.*)'
           target_label:  '__address__'
           replacement:   '${1}:8001'
+      - job_name: 'gm-control'
+        metrics_path: /prometheus
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names:
+{{ include "greymatter.dashboard.prometheus_namespaces" . | indent 16 }}
+        relabel_configs:
+        - source_labels: ['__meta_kubernetes_pod_container_port_name']
+          regex: 'als-metrics'
+          action: 'keep'
+        - source_labels: ['__address__']
+          regex: '(.*):(.*)'
+          target_label: '__address__'
+          replacement: '${1}:{{ .Values.global.control.prometheus_port }}'
       {{- end }}
 
   # Copied from https://github.com/DecipherNow/gm-dashboard/blob/master/docker/prometheus/recording_rules.yml
