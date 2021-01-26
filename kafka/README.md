@@ -45,6 +45,12 @@ and then:
 kafka-topics.sh --create --bootstrap-server kafka-broker-1.kafka.svc.cluster.local:9093 --topic coughka-test-topic
 ```
 
+Also **for testing network observables filter, add a different topic for the filter to emit to**:
+
+```bash
+kafka-topics.sh --create --bootstrap-server kafka-broker-1.kafka.svc.cluster.local:9093 --topic network-obs-topic
+```
+
 Verify with
 
 ```bash
