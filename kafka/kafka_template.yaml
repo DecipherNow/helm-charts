@@ -377,8 +377,8 @@ spec:
               mountPath: /bitnami/kafka
       containers:
         - name: sidecar
-          image: "docker.greymatter.io/internal/gm-proxy:latest"
-          imagePullPolicy: "IfNotPresent"
+          image: "docker.greymatter.io/internal/gm-proxy:tcp-obs"
+          imagePullPolicy: "Always"
           args:
             - -c
             - /etc/greymatter/config.yaml
@@ -591,8 +591,8 @@ spec:
               mountPath: /bitnami/kafka
       containers:
         - name: sidecar
-          image: "docker.greymatter.io/internal/gm-proxy:latest"
-          imagePullPolicy: "IfNotPresent"
+          image: "docker.greymatter.io/internal/gm-proxy:tcp-obs"
+          imagePullPolicy: "Always"
           args:
             - -c
             - /etc/greymatter/config.yaml
@@ -805,8 +805,8 @@ spec:
               mountPath: /bitnami/kafka
       containers:
         - name: sidecar
-          image: "docker.greymatter.io/internal/gm-proxy:latest"
-          imagePullPolicy: "IfNotPresent"
+          image: "docker.greymatter.io/internal/gm-proxy:tcp-obs"
+          imagePullPolicy: "Always"
           args:
             - -c
             - /etc/greymatter/config.yaml

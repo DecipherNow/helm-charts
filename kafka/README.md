@@ -73,3 +73,9 @@ kubectl apply -f kafka/coughka/coughka-deployment.yaml
 ```
 
 Once everything is running, there should be no errors in the coughka container logs.  You can use a consumer to check the messages or go to `services/coughka/published` to see the list of messages being published by the coughka service and `/services/coughka/subscribed` to see the list of messages being consumed by the coughka service.
+
+To see the observables emitted, rerun the kafka client command and run the following:
+
+```bash
+kafka-console-
+```

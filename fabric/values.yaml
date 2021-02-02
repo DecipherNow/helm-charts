@@ -76,7 +76,7 @@ control:
     version: networkobs
     image: 'docker.greymatter.io/internal/gm-control:{{ $.Values.control.version }}'
     # When to pull images, used in the deployment
-    image_pull_policy: IfNotPresent
+    image_pull_policy: Always
     # Secret used to talk to control-api
     secret:
       enabled: true
@@ -167,7 +167,7 @@ control-api:
     version: networkobs
     image: 'docker.greymatter.io/internal/gm-control-api:{{ $.Values.controlApi.version }}'
     # When to pull images, used in the deployment
-    image_pull_policy: IfNotPresent
+    image_pull_policy: Always
     # Port exposed by the control-api container
     container_port: 5555
     # Location to persist control-api's configuration store
