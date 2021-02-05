@@ -14,7 +14,9 @@
             "useKafka": true,
             "kafkaServerConnection": "kafka-broker-2.kafka.svc.cluster.local:9094",
             "topic": "network-obs-topic",
-            "eventTopic": "network-obs-topic"
+            "eventTopic": "network-obs-topic",
+            "logLevel": "debug",
+            "decodeToProtocol": "kafka"
         },
         "envoy_tcp_proxy": {
             "stat_prefix": "broker2_ingress_tcp",
