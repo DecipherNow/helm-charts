@@ -415,7 +415,7 @@ spec:
               mountPath: /etc/greymatter
               readOnly: true
         - name: kafka
-          image: docker.io/bitnami/kafka:2.4.0-debian-9-r22
+          image: docker.io/bitnami/kafka:2.7.0-debian-10-r1
           imagePullPolicy: "IfNotPresent"
           env:
             - name: BITNAMI_DEBUG
@@ -629,7 +629,7 @@ spec:
               mountPath: /etc/greymatter
               readOnly: true
         - name: kafka
-          image: docker.io/bitnami/kafka:2.4.0-debian-9-r22
+          image: docker.io/bitnami/kafka:2.7.0-debian-10-r1
           imagePullPolicy: "IfNotPresent"
           env:
             - name: BITNAMI_DEBUG
@@ -843,7 +843,7 @@ spec:
               mountPath: /etc/greymatter
               readOnly: true
         - name: kafka
-          image: docker.io/bitnami/kafka:2.4.0-debian-9-r22
+          image: docker.io/bitnami/kafka:2.7.0-debian-10-r1
           imagePullPolicy: "IfNotPresent"
           env:
             - name: BITNAMI_DEBUG

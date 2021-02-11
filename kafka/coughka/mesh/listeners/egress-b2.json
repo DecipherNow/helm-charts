@@ -8,7 +8,7 @@
     "ip": "127.0.0.1",
     "port": 9094,
     "protocol": "http_auto",
-    "active_network_filters": ["gm.observables_tcp", "envoy.tcp_proxy"],
+    "active_network_filters": ["envoy.tcp_proxy"],
     "network_filters": {
         "gm_observables_tcp": {
             "useKafka": true,

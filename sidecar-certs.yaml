@@ -11,7 +11,7 @@ metadata:
   annotations:
     meta.helm.sh/release-name: secrets
     meta.helm.sh/release-namespace: kafka
-  creationTimestamp: "2021-02-02T15:24:15Z"
+  creationTimestamp: "2021-02-08T13:45:17Z"
   labels:
     app.kubernetes.io/managed-by: Helm
     chart: secrets-2.3.0
@@ -43,10 +43,10 @@ metadata:
       f:type: {}
     manager: Go-http-client
     operation: Update
-    time: "2021-02-02T15:24:15Z"
+    time: "2021-02-08T13:45:17Z"
   name: sidecar-certs
-  namespace: kafka 
-  resourceVersion: "765"
+  namespace: kafka
+  resourceVersion: "1207"
   selfLink: /api/v1/namespaces/kafka/secrets/sidecar-certs
-  uid: 9a4a0a16-90a1-4ed6-bdec-e413840fde34
+  uid: 601f0da1-3dca-4c4f-8b1e-274f0686915f
 type: Opaque

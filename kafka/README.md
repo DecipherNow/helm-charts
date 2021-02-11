@@ -36,7 +36,7 @@ This directory contains the files needed to install kafka with 3 brokers with a 
 Run a kafka client and create any topics - by default in coughka we're using coughka-test-topic, so:
 
 ```bash
-kubectl run kafka-observables-client --rm --tty -i --restart='Never' --image docker.io/bitnami/kafka:2.4.0-debian-9-r22 --namespace kafka --command -- bash
+kubectl run kafka-observables-client --rm --tty -i --restart='Never' --image docker.io/bitnami/kafka:2.7.0-debian-10-r1 --namespace kafka --command -- bash
 ```
 
 and then:
