@@ -10,11 +10,8 @@ This directory contains the files needed to install kafka with 3 brokers with a 
     kubectl create namespace kafka
     kubectl get secret docker.secret -o yaml > docker-secret.yaml
     kubectl get secret sidecar-certs -o yaml > sidecar-certs.yaml
-    ```
-
-    Edit each file replacing the default namespace with `kafka`. Then apply:
-
-    ```bash
+    sed -i '' 's/default/kafka/g' docker-secret.yaml
+    sed -i '' 's/default/kafka/g' sidecar-certs.yaml
     kubectl apply -f docker-secret.yaml
     kubectl apply -f sidecar-certs.yaml
     ```
@@ -43,13 +40,10 @@ and then:
 
 ```bash
 kafka-topics.sh --create --bootstrap-server kafka-broker-1.kafka.svc.cluster.local:9093 --topic coughka-test-topic
+kafka-topics.sh --create --bootstrap-server kafka-broker-1.kafka.svc.cluster.local:9093 --topic kafka-protocol-topic
 ```
 
-Also **for testing network observables filter, add a different topic for the filter to emit to**:
-
-```bash
-kafka-topics.sh --create --bootstrap-server kafka-broker-1.kafka.svc.cluster.local:9093 --topic network-obs-topic
-```
+Kafka-protocol-topic may fail if its already been created by the observables filter.
 
 Verify with
 
@@ -74,8 +68,12 @@ kubectl apply -f kafka/coughka/coughka-deployment.yaml
 
 Once everything is running, there should be no errors in the coughka container logs.  You can use a consumer to check the messages or go to `services/coughka/published` to see the list of messages being published by the coughka service and `/services/coughka/subscribed` to see the list of messages being consumed by the coughka service.
 
-To see the observables emitted, rerun the kafka client command and run the following:
+To view the observables, rerun the kafka client command and run the consumer:
 
 ```bash
-kafka-console-
+kubectl run kafka-observables-client --rm --tty -i --restart='Never' --image docker.io/bitnami/kafka:2.7.0-debian-10-r1 --namespace kafka --command -- bash
+```
+
+```bash
+kafka-console-consumer.sh --bootstrap-server kafka-broker-1.kafka.svc.cluster.local:9093 --topic kafka-protocol-topic
 ```
