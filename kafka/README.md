@@ -4,19 +4,26 @@ This directory contains the files needed to install kafka with 3 brokers with a 
 
 ## Steps
 
-1. Create kafka namespace and add secrets
+1. Create kafka namespace and install mesh
 
     ```bash
+    make k3d
     kubectl create namespace kafka
-    kubectl get secret docker.secret -o yaml > docker-secret.yaml
-    kubectl get secret sidecar-certs -o yaml > sidecar-certs.yaml
-    sed -i '' 's/default/kafka/g' docker-secret.yaml
-    sed -i '' 's/default/kafka/g' sidecar-certs.yaml
-    kubectl apply -f docker-secret.yaml
-    kubectl apply -f sidecar-certs.yaml
+    make install
     ```
 
-2. Install kafka/sidecars
+2. Create kafka namespace and add secrets
+
+    ```bash
+    kubectl get secret docker.secret -o yaml > kafka-docker-secret.yaml
+    kubectl get secret sidecar-certs -o yaml > kafka-sidecar-certs.yaml
+    sed -i '' 's/default/kafka/g' kafka-docker-secret.yaml
+    sed -i '' 's/default/kafka/g' kafka-sidecar-certs.yaml
+    kubectl apply -f kafka-docker-secret.yaml
+    kubectl apply -f kafka-sidecar-certs.yaml
+    ```
+
+3. Install kafka/sidecars
 
     ```bash
     kubectl apply -f kafka/configmap-b0.yaml
@@ -28,7 +35,13 @@ This directory contains the files needed to install kafka with 3 brokers with a 
     kubectl apply -f kafka/kafka_template.yaml -n kafka
     ```
 
-3. Install coughka deployment for testing
+4. Wait for pods to reach running states
+
+    ```bash
+    kubectl get pod -w -n kafka
+    ```
+
+5. Install coughka deployment for testing
 
 Run a kafka client and create any topics - by default in coughka we're using coughka-test-topic, so:
 
@@ -45,13 +58,13 @@ kafka-topics.sh --create --bootstrap-server kafka-broker-1.kafka.svc.cluster.loc
 
 Kafka-protocol-topic may fail if its already been created by the observables filter.
 
-Verify with
+Verify with:
 
 ```bash
 kafka-topics.sh --list --zookeeper kafka-observables-zookeeper-headless.kafka.svc.cluster.local:2181
 ```
 
-Now configure the mesh for the incoming coughka/sidecar combo:
+Exit the kafka client and configure the mesh for the incoming coughka/sidecar combo:
 
 ```bash
 for cl in kafka/coughka/mesh/clusters/*.json; do greymatter create cluster < $cl; done
@@ -62,11 +75,19 @@ for cl in kafka/coughka/mesh/rules/*.json; do greymatter create shared_rules < $
 for cl in kafka/coughka/mesh/routes/*.json; do greymatter create route < $cl; done
 ```
 
+Install coughka into the default namespace:
+
 ```bash
 kubectl apply -f kafka/coughka/coughka-deployment.yaml
 ```
 
-Once everything is running, there should be no errors in the coughka container logs.  You can use a consumer to check the messages or go to `services/coughka/published` to see the list of messages being published by the coughka service and `/services/coughka/subscribed` to see the list of messages being consumed by the coughka service.
+Once everything is running, there should be no errors in the coughka container logs.
+
+```bash
+kc logs -f deployment/coughka -c coughka
+```
+
+You can use a consumer to check the messages or go to `services/coughka/published` to see the list of messages being published by the coughka service and `/services/coughka/subscribed` to see the list of messages being consumed by the coughka service.
 
 To view the observables, rerun the kafka client command and run the consumer:
 
